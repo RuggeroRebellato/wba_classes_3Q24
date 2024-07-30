@@ -32,7 +32,7 @@ const mint = new PublicKey("Gk2Nf4wqcaP9K9pKPTXq9vuxzNP1KfiAE2MpJhX8Kbpd");
       mint,
       ata.address,
       keypair.publicKey,
-      token_decimals,
+      BigInt(100) * token_decimals,
     );
     console.log(`Your mint txid: ${mintTx}`);
   } catch (error) {
