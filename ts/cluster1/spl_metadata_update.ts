@@ -27,8 +27,8 @@ umi.use(signerIdentity(createSignerFromKeypair(umi, keypair)));
       updateAuthority: signer,
       data: {
         ...initialMetadata,
-        name: "WBA TEST TOKEN",
-        symbol: "wbaTOKEN",
+        name: "WBA RR TOKEN",
+        symbol: "wbaRR",
         uri: "https://example.com/metadata.json",
       },
     }).sendAndConfirm(umi);
