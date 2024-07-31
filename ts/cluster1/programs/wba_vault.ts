@@ -1,6 +1,7 @@
 export type WbaVault = {
-  version: "0.1.0";
-  name: "wba_vault";
+  version: "0.1.0",
+  name: "wba_vault",
+
   instructions: [
     {
       name: "initialize";

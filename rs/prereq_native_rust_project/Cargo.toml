@@ -1,0 +1,12 @@
+[package]
+name = "enrollment_dapp_rust"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bs58 = "0.5.1"
+solana-sdk = "1.18.18"
+solana-client = "1.18.18"
+solana-program = "1.18.18"
+solana-idlgen = { git = "https://github.com/deanmlittle/solana-idlgen.git" }
+borsh = "0.10.3"
