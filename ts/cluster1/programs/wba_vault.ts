@@ -1,7 +1,6 @@
 export type WbaVault = {
-  version: "0.1.0",
-  name: "wba_vault",
-
+  version: "0.1.0";
+  name: "wba_vault";
   instructions: [
     {
       name: "initialize";
@@ -32,7 +31,7 @@ export type WbaVault = {
                 type: "publicKey";
                 account: "Vault";
                 path: "vault_state";
-              },
+              }
             ];
           };
         },
@@ -51,7 +50,7 @@ export type WbaVault = {
                 kind: "account";
                 type: "publicKey";
                 path: "vault_auth";
-              },
+              }
             ];
           };
         },
@@ -59,7 +58,7 @@ export type WbaVault = {
           name: "systemProgram";
           isMut: false;
           isSigner: false;
-        },
+        }
       ];
       args: [];
     },
@@ -93,7 +92,7 @@ export type WbaVault = {
                 type: "publicKey";
                 account: "Vault";
                 path: "vault_state";
-              },
+              }
             ];
           };
         },
@@ -112,7 +111,7 @@ export type WbaVault = {
                 kind: "account";
                 type: "publicKey";
                 path: "vault_auth";
-              },
+              }
             ];
           };
         },
@@ -120,13 +119,13 @@ export type WbaVault = {
           name: "systemProgram";
           isMut: false;
           isSigner: false;
-        },
+        }
       ];
       args: [
         {
           name: "amount";
           type: "u64";
-        },
+        }
       ];
     },
     {
@@ -159,7 +158,7 @@ export type WbaVault = {
                 type: "publicKey";
                 account: "Vault";
                 path: "vault_state";
-              },
+              }
             ];
           };
         },
@@ -178,7 +177,7 @@ export type WbaVault = {
                 kind: "account";
                 type: "publicKey";
                 path: "vault_auth";
-              },
+              }
             ];
           };
         },
@@ -186,13 +185,13 @@ export type WbaVault = {
           name: "systemProgram";
           isMut: false;
           isSigner: false;
-        },
+        }
       ];
       args: [
         {
           name: "amount";
           type: "u64";
-        },
+        }
       ];
     },
     {
@@ -230,7 +229,7 @@ export type WbaVault = {
                 type: "publicKey";
                 account: "Vault";
                 path: "vault_state";
-              },
+              }
             ];
           };
         },
@@ -258,13 +257,13 @@ export type WbaVault = {
           name: "systemProgram";
           isMut: false;
           isSigner: false;
-        },
+        }
       ];
       args: [
         {
           name: "amount";
           type: "u64";
-        },
+        }
       ];
     },
     {
@@ -302,7 +301,7 @@ export type WbaVault = {
                 type: "publicKey";
                 account: "Vault";
                 path: "vault_state";
-              },
+              }
             ];
           };
         },
@@ -330,13 +329,13 @@ export type WbaVault = {
           name: "systemProgram";
           isMut: false;
           isSigner: false;
-        },
+        }
       ];
       args: [
         {
           name: "amount";
           type: "u64";
-        },
+        }
       ];
     },
     {
@@ -374,7 +373,7 @@ export type WbaVault = {
                 type: "publicKey";
                 account: "Vault";
                 path: "vault_state";
-              },
+              }
             ];
           };
         },
@@ -409,7 +408,7 @@ export type WbaVault = {
                 type: "publicKey";
                 account: "Mint";
                 path: "token_mint";
-              },
+              }
             ];
             programId: {
               kind: "account";
@@ -444,7 +443,7 @@ export type WbaVault = {
                 kind: "const";
                 type: "string";
                 value: "edition";
-              },
+              }
             ];
             programId: {
               kind: "account";
@@ -472,7 +471,7 @@ export type WbaVault = {
           name: "systemProgram";
           isMut: false;
           isSigner: false;
-        },
+        }
       ];
       args: [];
     },
@@ -511,7 +510,7 @@ export type WbaVault = {
                 type: "publicKey";
                 account: "Vault";
                 path: "vault_state";
-              },
+              }
             ];
           };
         },
@@ -546,7 +545,7 @@ export type WbaVault = {
                 type: "publicKey";
                 account: "Mint";
                 path: "token_mint";
-              },
+              }
             ];
             programId: {
               kind: "account";
@@ -581,7 +580,7 @@ export type WbaVault = {
                 kind: "const";
                 type: "string";
                 value: "edition";
-              },
+              }
             ];
             programId: {
               kind: "account";
@@ -609,7 +608,7 @@ export type WbaVault = {
           name: "systemProgram";
           isMut: false;
           isSigner: false;
-        },
+        }
       ];
       args: [];
     },
@@ -637,10 +636,10 @@ export type WbaVault = {
           name: "systemProgram";
           isMut: false;
           isSigner: false;
-        },
+        }
       ];
       args: [];
-    },
+    }
   ];
   accounts: [
     {
@@ -663,10 +662,10 @@ export type WbaVault = {
           {
             name: "score";
             type: "u8";
-          },
+          }
         ];
       };
-    },
+    }
   ];
 };
 

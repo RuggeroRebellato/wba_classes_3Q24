@@ -2,11 +2,11 @@ import {
   Commitment,
   Connection,
   Keypair,
-  LAMPORTS_PER_SOL,
   PublicKey,
 } from "@solana/web3.js";
 import wallet from "./wallet/wba-wallet.json";
 import { getOrCreateAssociatedTokenAccount, transfer } from "@solana/spl-token";
+import { tokenAmount } from "@metaplex-foundation/umi";
 
 // We're going to import our keypair from the wallet file
 const keypair = Keypair.fromSecretKey(new Uint8Array(wallet));
@@ -39,6 +39,7 @@ const to = new PublicKey("7wxVFNuK35shzgrF1wjdrTmfkUd3SSkRCXrZqxYjQVDX");
       to,
     );
 
+    const amount = tokenAmount(10, undefined, 6);
     // Transfer the new token to the "toTokenAccount" we just created
     const signature = await transfer(
       connection,
@@ -46,7 +47,7 @@ const to = new PublicKey("7wxVFNuK35shzgrF1wjdrTmfkUd3SSkRCXrZqxYjQVDX");
       fromTokenAccount.address,
       toTokenAccount.address,
       keypair.publicKey,
-      10000000,
+      amount.basisPoints
     );
 
     console.log("Transfer Signature:", signature);

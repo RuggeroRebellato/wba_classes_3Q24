@@ -1,12 +1,6 @@
-import {
-  Connection,
-  Keypair,
-  SystemProgram,
-  PublicKey,
-  Commitment,
-} from "@solana/web3.js";
-import { Program, Wallet, AnchorProvider, Address } from "@coral-xyz/anchor";
-import { WbaVault, IDL } from "./programs/wba_vault";
+import { Address, AnchorProvider, Program, Wallet } from "@coral-xyz/anchor";
+import { Commitment, Connection, Keypair } from "@solana/web3.js";
+import { IDL, WbaVault } from "./programs/wba_vault";
 import wallet from "./wallet/wba-wallet.json";
 /// J8qKEmQpadFeBuXAVseH8GNrvsyBhMT8MHSVD3enRgJz
 
@@ -28,7 +22,7 @@ const provider = new AnchorProvider(connection, new Wallet(keypair), {
 const program = new Program<WbaVault>(
   IDL,
   "D51uEDHLbWAxNfodfQDv7qkp8WZtxrhi3uganGbNos7o" as Address,
-  provider,
+  provider
 );
 
 // Create a random keypair
