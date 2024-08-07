@@ -38,7 +38,7 @@ pub struct Initialize<'info> {
     #[account(
         init,
         payer = user,
-        seeds = [b"state", user.key().as_ref()], 
+        seeds = [b"state", user.key().as_ref()],
         bump,
         space = VaultState::INIT_SPACE,
     )]
@@ -66,7 +66,7 @@ pub struct Payment<'info> {
     pub user: Signer<'info>,
     #[account(
         mut,
-        seeds = [b"vault", vault_state.key().as_ref()], 
+        seeds = [b"vault", vault_state.key().as_ref()],
         bump = vault_state.vault_bump,
     )]
     pub vault: SystemAccount<'info>,
@@ -121,15 +121,16 @@ pub struct Close<'info> {
     pub user: Signer<'info>,
     #[account(
         mut,
-        seeds = [b"vault", vault_state.key().as_ref()], 
+        seeds = [b"vault", vault_state.key().as_ref()],
         bump = vault_state.vault_bump,
     )]
     pub vault: SystemAccount<'info>,
 
     #[account(
-        mut,close = user,
-        seeds = [b"vault", vault_state.key().as_ref()], 
-        bump = vault_state.vault_bump,
+        mut,
+        close = user,
+        seeds = [b"state", user.key().as_ref()],  // Changed this line
+        bump = vault_state.state_bump,  // Changed this line
     )]
     pub vault_state: Account<'info, VaultState>,
     pub system_program: Program<'info, System>,
@@ -168,4 +169,3 @@ pub struct VaultState {
 impl Space for VaultState {
     const INIT_SPACE: usize = 8 + 1 + 1;
 }
-
