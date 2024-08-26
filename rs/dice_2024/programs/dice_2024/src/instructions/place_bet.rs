@@ -3,7 +3,7 @@ use anchor_lang::{
     system_program::{transfer, Transfer},
 };
 
-use crate::Bet;
+use crate::state::Bet;
 
 #[derive(Accounts)]
 #[instruction(seed: u128)]
@@ -26,7 +26,7 @@ pub struct PlaceBet<'info> {
 
     )]
     pub bet: Account<'info, Bet>,
-    pub system_program: AccountInfo<'info>,
+    pub system_program: Program<'info, System>,
 }
 
 impl<'info> PlaceBet<'info> {
@@ -45,8 +45,6 @@ impl<'info> PlaceBet<'info> {
             roll,
             bump: bumps.bet,
         });
-
-        self.deposit(amount)?;
 
         Ok(())
     }
