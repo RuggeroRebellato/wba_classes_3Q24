@@ -1,0 +1,172 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model EconomicGroup {
+  id         String     @id @default(uuid())
+  name       String // Name of the economic group (e.g., John's Clothing)
+  businesses Business[] // Relationship to businesses in this group
+  tokens     Token[] // Tokens associated with the economic group
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
+
+model Business {
+  id              String        @id @default(uuid())
+  name            String
+  cnpj            String        @unique
+  address         String // e.g., "AV DOM PEDRO II, 000789"
+  city            String // e.g., "VIDEIRA"
+  state           String // e.g., "SC"
+  onboarded       Boolean       @default(false) // Tracks if the business is onboarded
+  economicGroup   EconomicGroup @relation(fields: [economicGroupId], references: [id])
+  economicGroupId String
+  transactions    NfceReceipt[] // Transactions associated with this business
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([economicGroupId])
+}
+
+model NfceReceipt {
+  id                  String                @id @default(uuid())
+  accessKey           String                @unique // Chave de acesso for NFC-e
+  business            Business              @relation(fields: [businessId], references: [id])
+  businessId          String // Foreign key to Business
+  user                User                  @relation(fields: [userId], references: [id])
+  userId              String // Foreign key to User
+  issuedAt            DateTime // The issue date of the NFC-e
+  amount              Int // Total value of the purchase in centavos (100 = 1 BRL)
+  discount            Int? // Discounts applied in centavos
+  totalPaid           Int // Final amount paid in centavos
+  paymentMethod       String // e.g., "Cartão de Crédito"
+  items               Item[] // List of purchased items (optional due to bad formatting)
+  processed           Boolean               @default(false) // Tracks if tokens have been minted for this receipt
+  location            String? // User's geolocation (optional)
+  createdAt           DateTime              @default(now())
+  OffChainTransaction OffChainTransaction[]
+
+  @@index([businessId])
+  @@index([userId])
+}
+
+model Item {
+  id         String      @id @default(uuid())
+  name       String? // Product name (optional due to bad formatting)
+  quantity   Float? // Quantity of the item purchased (optional)
+  unit       String? // Unit of measure (optional)
+  unitPrice  Int? // Price per unit in centavos (optional)
+  totalPrice Int? // Total price for the item in centavos (optional)
+  receipt    NfceReceipt @relation(fields: [receiptId], references: [id])
+  receiptId  String
+}
+
+model Token {
+  id              String  @id @default(uuid())
+  name            String // Token name (e.g., John's Loyalty Token)
+  symbol          String // Token symbol (e.g., JLT)
+  decimals        Int? // Number of decimal places
+  mintAddress     String? // On-chain mint address (for minted tokens)
+  totalSupply     Float? // Total number of tokens minted
+  mintAuthority   String? // Mint authority address
+  freezeAuthority String? // Freeze authority address (optional)
+  burnAuthority   String? // Burn authority address (optional)
+  onChain         Boolean @default(false) // Indicates if the token is minted on-chain
+
+  // Metaplex Token Metadata
+  uri                  String? // URI for off-chain metadata (e.g., for image, description)
+  image                String? // URI pointing to the token's image (e.g., logo or icon)
+  description          String? // Short description of the token
+  sellerFeeBasisPoints Int? // Secondary market seller fee in basis points (optional)
+  updateAuthority      String? // Update authority address
+  creators             Json? // JSON array to store creators and their share of royalties
+  collection           String? // Optional collection ID
+  attributes           Json? // Key-value attributes (e.g., loyalty levels)
+
+  economicGroup   EconomicGroup @relation(fields: [economicGroupId], references: [id])
+  economicGroupId String
+
+  offChainTransactions OffChainTransaction[] // Off-chain transactions related to this token
+  createdAt            DateTime              @default(now())
+  User                 User?                 @relation(fields: [userId], references: [id])
+  userId               String?
+
+  @@index([economicGroupId])
+}
+
+model OffChainTransaction {
+  id        String      @id @default(uuid())
+  token     Token       @relation(fields: [tokenId], references: [id])
+  tokenId   String // Foreign key to Token
+  user      User        @relation(fields: [userId], references: [id])
+  userId    String // Foreign key to User
+  receipt   NfceReceipt @relation(fields: [receiptId], references: [id])
+  receiptId String
+  amount    Int // Amount of tokens to be minted
+  createdAt DateTime    @default(now())
+
+  @@index([tokenId])
+  @@index([userId])
+}
+
+// User Models
+
+model User {
+  id                   String                @id @default(cuid())
+  email                String                @unique
+  username             String?               @unique
+  image                UserImage? // Relation to user's profile image
+  customerId           String?               @unique
+  roles                Role[] // Relationship with user roles
+  tokens               Token[] // Relationship with user's tokens
+  nfceReceipts         NfceReceipt[] // User's scanned receipts
+  offChainTransactions OffChainTransaction[] // Track user's off-chain transactions
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserImage {
+  id          String  @id @default(cuid())
+  altText     String?
+  contentType String
+  blob        Bytes
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Role-Based Access Models
+
+model Role {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  description String       @default("")
+  users       User[]
+  permissions Permission[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Permission {
+  id          String @id @default(cuid())
+  entity      String // E.g. user, admin.
+  action      String // E.g. create, read, update, delete
+  access      String // E.g. own or any
+  description String @default("")
+  roles       Role[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([action, entity, access])
+}
