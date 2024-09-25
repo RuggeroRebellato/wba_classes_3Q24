@@ -7,11 +7,14 @@ skip-lint = false
 [programs.localnet]
 pontos_gratis = "Hw25VdJjpYKNVbB3KEchXL5NebR283fBGT9yCHaMqT8M"
 
+[programs.devnet]
+pontos_gratis = "Hw25VdJjpYKNVbB3KEchXL5NebR283fBGT9yCHaMqT8M"
+
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]

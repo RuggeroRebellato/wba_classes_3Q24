@@ -2,11 +2,13 @@
   "license": "ISC",
   "scripts": {
     "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
-    "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check"
+    "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
+    "update-types": "cp target/types/pontos_gratis.ts sdk/src/types/pontos_gratis.ts && prettier --write sdk/src/types/pontos_gratis.ts && cp target/idl/pontos_gratis.json sdk/src/types/idl_pontos_gratis.json && prettier --write sdk/src/types/idl_pontos_gratis.json",
+    "build": "anchor build && yarn update-types && cd sdk && tsc",
+    "deploy": "yarn build && anchor deploy"
   },
   "dependencies": {
-    "@coral-xyz/anchor": "^0.30.1",
-    "@types/react-helmet": "^6.1.11"
+    "@coral-xyz/anchor": "^0.30.1"
   },
   "devDependencies": {
     "@types/bn.js": "^5.1.0",
